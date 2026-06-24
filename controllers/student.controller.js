@@ -1,5 +1,8 @@
 const Student = require("../models/student");
 
+
+// Create ---------student
+
 const createStudent = async (req, res) => {
     try {
         const data = req.body;
@@ -16,10 +19,27 @@ const createStudent = async (req, res) => {
 
 };
 
+// Read ------------student
+
+const getStudents = async (req, res) => {
+    try {
+        const readData = await Student.find();
+        res.send(readData);
+    } catch (error) {
+        res.status(500).send("something went wronge");
+        console.log(error);
+
+
+    }
+
+
+
+};
+
 
 
 
 module.exports = {
-    createStudent
+    createStudent,getStudents
 };
 
