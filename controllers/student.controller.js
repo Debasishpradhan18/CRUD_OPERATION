@@ -15,8 +15,6 @@ const createStudent = async (req, res) => {
         res.status(500).send("Something went wrong");
 
     };
-
-
 };
 
 // Read ------------student
@@ -28,18 +26,28 @@ const getStudents = async (req, res) => {
     } catch (error) {
         res.status(500).send("something went wronge");
         console.log(error);
-
-
     }
+};
 
+// Updated ---------------student
 
+const updateStudent = async (req, res) => {
+    try {
+        const studentID = req.params.id;
+        const studentData = req.body;
 
+        await Student.findByIdAndUpdate(studentID, studentData);
+        res.send("Data is Updated");
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("something went wronge");
+        
+    }
 };
 
 
-
-
 module.exports = {
-    createStudent,getStudents
+    createStudent, getStudents,
+    updateStudent
 };
 
