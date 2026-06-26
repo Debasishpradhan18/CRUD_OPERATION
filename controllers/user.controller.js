@@ -1,5 +1,6 @@
 const User = require("../models/user.js");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const NewRegister = async (req, res) => {
     try {
@@ -32,7 +33,6 @@ const LoginUser = async (req, res) => {
         const loginData = req.body;
 
         // Check whether the user exists
-
         const existingUser = await User.findOne({
             email: loginData.email
         });
@@ -50,8 +50,21 @@ const LoginUser = async (req, res) => {
         if (!isMatch) {
             return res.status(400).send("Invalid Password");
         }
-       return res.status(200).send("Login Successful");
-        // Next step: Generate JWT Token
+
+        // Generate JWT Token
+        const token = jwt.sign(
+            { id: existingUser._id },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1d"
+            }
+        );
+
+        // Send Response
+        return res.status(200).json({
+            message: "Login Successful",
+            token
+        });
 
     } catch (error) {
         console.log(error);
