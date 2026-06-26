@@ -1,12 +1,18 @@
 const express = require("express");
-const router = express.Router();
-const {createStudent, getStudents, updateStudent, deleteStudent} = require("../controllers/student.controller");
-const { NewRegister } = require("../controllers/user.controller");
+const {
+    createStudent,
+    getStudents,
+    updateStudent,
+    deleteStudent
+} = require("../controllers/student.controller");
 
-router.post("/",createStudent);
-router.get("/",getStudents);
-router.put("/:id",updateStudent);
-router.delete("/:id",deleteStudent);
-router.post("/Register",NewRegister)
+const authMiddleware = require("../middleware/auth.middleware");
+
+const router = express.Router();
+
+router.post("/", authMiddleware, createStudent);
+router.get("/", authMiddleware, getStudents);
+router.put("/:id", authMiddleware, updateStudent);
+router.delete("/:id", authMiddleware, deleteStudent);
 
 module.exports = router;
