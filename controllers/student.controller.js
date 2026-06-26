@@ -29,7 +29,10 @@ const getStudents = async (req, res) => {
     }
 };
 
+
 // Updated ---------------student
+
+
 
 const updateStudent = async (req, res) => {
     try {
@@ -41,13 +44,29 @@ const updateStudent = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).send("something went wronge");
-        
+
     }
+};
+
+const deleteStudent = async (req, res) => {
+    try {
+        const delID = req.params.id;
+        const delStudent = req.body;
+        await Student.findByIdAndDelete(delID, delStudent);
+        res.send("Data Deleted successfully...");
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("something went wronge");
+
+    }
+
+
 };
 
 
 module.exports = {
     createStudent, getStudents,
-    updateStudent
+    updateStudent, deleteStudent
 };
 

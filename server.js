@@ -3,6 +3,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const db= require("./db");
 const studentRoute = require("./routes/student.route");
+const userRoute =require("./routes/user.route");
+
 
 
 const app = express();
@@ -12,6 +14,7 @@ const port = process.env.PORT|| 8080
 
 
 app.use("/students",studentRoute);
+app.use("/api/auth",userRoute);
 
 
 
