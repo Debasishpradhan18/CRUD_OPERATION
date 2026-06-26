@@ -27,6 +27,38 @@ const NewRegister = async (req, res) => {
     }
 };
 
+const LoginUser = async (req, res) => {
+    try {
+        const loginData = req.body;
+
+        // Check whether the user exists
+
+        const existingUser = await User.findOne({
+            email: loginData.email
+        });
+
+        if (!existingUser) {
+            return res.status(404).send("User not found");
+        }
+
+        // Compare password
+        const isMatch = await bcrypt.compare(
+            loginData.password,
+            existingUser.password
+        );
+
+        if (!isMatch) {
+            return res.status(400).send("Invalid Password");
+        }
+       return res.status(200).send("Login Successful");
+        // Next step: Generate JWT Token
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Something went wrong");
+    }
+};
+
 module.exports = {
-    NewRegister
+    NewRegister , LoginUser
 }
